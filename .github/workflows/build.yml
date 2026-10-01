@@ -1,23 +1,37 @@
 name: Build Necro Morselli PSP
+
 on:
   workflow_dispatch:
   push:
     tags: ['v*']
+
 permissions:
   contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     container: pspdev/pspdev:latest
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Check PSP SDK
+        run: |
+          echo "PSPSDK=$PSPSDK"
+          which psp-gcc || true
+          ls -la "$PSPSDK/lib/" || true
+          ls -la /usr/local/pspdev/lib/ || true
+
       - name: Build EBOOT.PBP
         run: |
           make clean || true
           make
+
       - name: Package PSP ISO
         run: |
           bash tools/build_iso.sh EBOOT.PBP Necro_Morselli.iso
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:

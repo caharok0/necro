@@ -16,12 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check PSP SDK
+      - name: Setup PSP SDK
         run: |
+          export PSPSDK=/usr/local/pspdev
+          export PATH="$PSPSDK/bin:$PATH"
+          echo "PSPSDK=$PSPSDK" >> "$GITHUB_ENV"
+          echo "PATH=$PATH" >> "$GITHUB_ENV"
           echo "PSPSDK=$PSPSDK"
-          which psp-gcc || true
-          ls -la "$PSPSDK/lib/" || true
-          ls -la /usr/local/pspdev/lib/ || true
+          ls -la "$PSPSDK/lib/"
 
       - name: Build EBOOT.PBP
         run: |

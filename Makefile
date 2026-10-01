@@ -1,5 +1,5 @@
 TARGET = EBOOT
-OBJS = src/main.o
+OBJS = main.o
 CFLAGS = -O2 -G0 -Wall -Wextra -std=c99
 CXXFLAGS = $(CFLAGS)
 LIBS = -lpspgu -lpspgum -lpspctrl -lpspdisplay -lpspiofilemgr -lpspdebug -lpspsdkc

@@ -33,44 +33,15 @@ jobs:
 
       - name: Build EBOOT.PBP
         run: |
-          make clean || true
-          make
+          ./build_psp.sh
 
-          echo "Checking build output:"
-          ls -lh EBOOT.elf EBOOT.prx PARAM.SFO EBOOT.PBP
+          echo "=== BUILD OUTPUT ==="
+          ls -lah EBOOT.PBP
 
-      - name: Prepare ISO tools
-        run: |
-          mkdir -p tools
-
-          if [ -f build_psp.sh ]; then
-            cp build_psp.sh tools/build_psp.sh
-            chmod +x tools/build_psp.sh
-          fi
-
-          if [ -f build_iso.sh ]; then
-            chmod +x build_iso.sh
-          fi
-
-          echo "Project files:"
-          ls -la
-          echo "Tools:"
-          ls -la tools
-
-      - name: Package PSP ISO
-        run: |
           test -f EBOOT.PBP
-          bash build_iso.sh EBOOT.PBP Necro_Morselli.iso
 
-      - name: Check artifacts
-        run: |
-          ls -lh EBOOT.PBP
-          ls -lh Necro_Morselli.iso
-
-      - name: Upload artifacts
+      - name: Upload EBOOT
         uses: actions/upload-artifact@v4
         with:
-          name: Necro-Morselli-PSP
-          path: |
-            EBOOT.PBP
-            Necro_Morselli.iso
+          name: Necro-Morselli-EBOOT
+          path: EBOOT.PBP

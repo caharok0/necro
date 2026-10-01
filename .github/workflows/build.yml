@@ -27,13 +27,13 @@ jobs:
           echo "PSPSDK=$PSPSDK" >> "$GITHUB_ENV"
           echo "PATH=$PATH" >> "$GITHUB_ENV"
 
-          echo "PSPSDK=$PSPSDK"
+          echo "PSP SDK:"
           psp-gcc --version
           ls -l "$PSPSDK/lib/build.mak"
 
       - name: Build EBOOT.PBP
         run: |
-          ./build_psp.sh
+          sh ./build_psp.sh
 
           echo "=== BUILD OUTPUT ==="
           ls -lah EBOOT.PBP

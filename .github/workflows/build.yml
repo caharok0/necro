@@ -33,7 +33,7 @@ jobs:
 
       - name: Package PSP ISO
         run: |
-          bash tools/build_iso.sh EBOOT.PBP Necro_Morselli.iso
+          bash build_iso.sh EBOOT.PBP Necro_Morselli.iso
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

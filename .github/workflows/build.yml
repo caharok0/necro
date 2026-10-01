@@ -27,20 +27,47 @@ jobs:
           echo "PSPSDK=$PSPSDK" >> "$GITHUB_ENV"
           echo "PATH=$PATH" >> "$GITHUB_ENV"
 
+          echo "=== PSP GCC ==="
           psp-gcc --version
+
+          echo "=== build.mak ==="
           ls -l "$PSPSDK/lib/build.mak"
 
       - name: Build EBOOT.PBP
         run: |
           sh ./build_psp.sh
-          test -f EBOOT.PBP
+
+          echo "=== EBOOT ==="
           ls -lh EBOOT.PBP
+
+          test -f EBOOT.PBP
+
+      - name: Check ISO tools
+        run: |
+          echo "=== UMDGen ==="
+          command -v umdgen || true
+          command -v UMDGenCLI || true
+
+          echo "=== Search PSPDev ==="
+          find /usr/local/pspdev \
+            -iname '*umdgen*' \
+            -o -iname '*umd*gen*' \
+            2>/dev/null | head -20
+
+          echo "=== Search system ==="
+          find /usr/bin /usr/local/bin \
+            -iname '*umdgen*' \
+            -o -iname '*umd*gen*' \
+            2>/dev/null | head -20
 
       - name: Build ISO
         run: |
           sh ./build_iso.sh
-          test -f Necro_Morselli.iso
+
+          echo "=== ISO ==="
           ls -lh Necro_Morselli.iso
+
+          test -f Necro_Morselli.iso
 
       - name: Upload PSP files
         uses: actions/upload-artifact@v4

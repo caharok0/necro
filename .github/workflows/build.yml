@@ -27,21 +27,25 @@ jobs:
           echo "PSPSDK=$PSPSDK" >> "$GITHUB_ENV"
           echo "PATH=$PATH" >> "$GITHUB_ENV"
 
-          echo "PSP SDK:"
           psp-gcc --version
           ls -l "$PSPSDK/lib/build.mak"
 
       - name: Build EBOOT.PBP
         run: |
           sh ./build_psp.sh
-
-          echo "=== BUILD OUTPUT ==="
-          ls -lah EBOOT.PBP
-
           test -f EBOOT.PBP
+          ls -lh EBOOT.PBP
 
-      - name: Upload EBOOT
+      - name: Build ISO
+        run: |
+          sh ./build_iso.sh
+          test -f Necro_Morselli.iso
+          ls -lh Necro_Morselli.iso
+
+      - name: Upload PSP files
         uses: actions/upload-artifact@v4
         with:
-          name: Necro-Morselli-EBOOT
-          path: EBOOT.PBP
+          name: Necro-Morselli-PSP
+          path: |
+            EBOOT.PBP
+            Necro_Morselli.iso
